@@ -7,13 +7,12 @@ interface PlayerRendererProps {
   hasProjectile?: boolean; // For Tiny Tim logic
 }
 
-const PlayerRenderer: React.FC<PlayerRendererProps> = ({ player, hasProjectile = false }) => {
+const PlayerRenderer: React.FC<PlayerRendererProps> = ({ player }) => {
   const stats = CHARACTER_STATS[player.character];
   const isFacingRight = player.facing === 'RIGHT';
   
   // Ragdoll/Wobble calculations
   const lean = player.vx * 2;
-  const bounce = Math.abs(Math.sin(Date.now() / 100)) * (Math.abs(player.vx) > 0.1 ? 5 : 0);
   
   // Special Move Visual overrides
   const isRolling = player.character === CharacterType.BARREL_BOB && player.isSpecialActive;

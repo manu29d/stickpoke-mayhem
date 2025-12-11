@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GameState, PlayerState, CharacterType, Particle, Projectile, Hazard, NetworkMode, NetworkMessage } from './types';
 import { 
-  WORLD_WIDTH, WORLD_HEIGHT, GROUND_Y, GRAVITY, FRICTION, 
+  WORLD_WIDTH, GROUND_Y, GRAVITY, FRICTION, 
   MOVE_ACCEL, MAX_SPEED, JUMP_FORCE, STICK_REACH, 
   STICK_DAMAGE_BASE, MOMENTUM_MULTIPLIER, MAX_STICKS,
   ROUND_DURATION, STICK_DURABILITY_LOSS_PER_HIT, CHARACTER_STATS,
@@ -9,7 +9,7 @@ import {
 } from './constants';
 import PlayerRenderer from './components/PlayerRenderer';
 import StickPile from './components/StickPile';
-import { Sword, Wind, Trophy, Timer, AlertTriangle, Zap, Wifi, Copy, Share2 } from 'lucide-react';
+import { Wind, Trophy, Timer, AlertTriangle, Zap, Wifi, Copy, Share2 } from 'lucide-react';
 import { Peer, DataConnection } from 'peerjs';
 
 // --- Utils ---
@@ -80,7 +80,7 @@ const App: React.FC = () => {
   const localKeysPressed = useRef<Set<string>>(new Set());
   const remoteKeysPressed = useRef<Set<string>>(new Set());
   
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number>(0);
   const lastTimeRef = useRef<number>(0);
   
   const [renderPlayers, setRenderPlayers] = useState<[PlayerState, PlayerState]>(playersRef.current);
