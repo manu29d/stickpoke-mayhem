@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GameState, PlayerState, CharacterType, Particle, Projectile, Hazard, NetworkMode, NetworkMessage } from './types';
 import { 
-  WORLD_WIDTH, GROUND_Y, GRAVITY, FRICTION, 
+  WORLD_WIDTH, WORLD_HEIGHT, GROUND_Y, GRAVITY, FRICTION, 
   MOVE_ACCEL, MAX_SPEED, JUMP_FORCE, STICK_REACH, 
   STICK_DAMAGE_BASE, MOMENTUM_MULTIPLIER, MAX_STICKS,
   ROUND_DURATION, STICK_DURABILITY_LOSS_PER_HIT, CHARACTER_STATS,
@@ -9,7 +9,7 @@ import {
 } from './constants';
 import PlayerRenderer from './components/PlayerRenderer';
 import StickPile from './components/StickPile';
-import { Wind, Trophy, Timer, AlertTriangle, Zap, Wifi, Copy, Share2 } from 'lucide-react';
+import { Wind, Trophy, Timer, AlertTriangle, Zap, Wifi, Copy, Share2, Maximize, Minimize } from 'lucide-react';
 import { Peer, DataConnection } from 'peerjs';
 
 // --- Utils ---
@@ -58,6 +58,48 @@ const App: React.FC = () => {
   const [p1Char, setP1Char] = useState<CharacterType>(CharacterType.SIR_WOBBLES);
   const [p2Char, setP2Char] = useState<CharacterType>(CharacterType.GUMBY_LEGS);
   
+  // Viewport Scaling & Fullscreen
+  const [scale, setScale] = useState(1);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const aspect = WORLD_WIDTH / WORLD_HEIGHT;
+      const windowAspect = window.innerWidth / window.innerHeight;
+      let newScale;
+      if (windowAspect > aspect) {
+        newScale = window.innerHeight / WORLD_HEIGHT;
+      } else {
+        newScale = window.innerWidth / WORLD_WIDTH;
+      }
+      setScale(newScale);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
+  useEffect(() => {
+      const handleFullscreenChange = () => {
+          setIsFullscreen(!!document.fullscreenElement);
+      };
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
   // Environment State
   const [windForce, setWindForce] = useState(0);
 
@@ -766,9 +808,22 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="w-full h-screen bg-slate-900 flex items-center justify-center p-4">
+    <div className="w-full h-screen bg-slate-900 flex items-center justify-center overflow-hidden">
       <div className="relative overflow-hidden shadow-2xl rounded-xl border-4 border-slate-700 bg-gradient-to-b from-sky-300 via-sky-200 to-green-100"
-           style={{ width: '100%', maxWidth: '1200px', aspectRatio: '2/1' }}>
+           style={{ 
+               width: WORLD_WIDTH, 
+               height: WORLD_HEIGHT, 
+               transform: `scale(${scale})`,
+               transformOrigin: 'center center'
+           }}>
+
+        {/* Fullscreen Button */}
+        <button 
+            onClick={toggleFullscreen}
+            className="absolute top-4 right-4 z-50 p-2 bg-slate-800/50 hover:bg-slate-800 text-white rounded-lg transition-colors"
+        >
+            {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
+        </button>
         
         {/* Environment - Wind */}
         {windForce !== 0 && (
@@ -919,7 +974,7 @@ const App: React.FC = () => {
         
       </div>
       
-      <div className="fixed bottom-4 right-4 text-slate-500 text-xs text-right opacity-50">
+      <div className="fixed bottom-4 right-4 text-slate-500 text-xs text-right opacity-50 pointer-events-none">
         P1: WASD + Space (Special: F) | P2: Arrows + Enter (Special: R-Shift)<br/>
         {networkMode === NetworkMode.HOST ? "Hosting Game" : (networkMode === NetworkMode.CLIENT ? "Client Mode" : "Local Play")}
       </div>
