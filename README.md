@@ -1,20 +1,65 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Stick-Poke Mayhem
 
-# Run and deploy your AI Studio app
+**Stick-Poke Mayhem** is an 80-second ragdoll rumble where goofy avatars poke each other into oblivion. Manage your sticks, utilize momentum for maximum damage, and try not to trip over your own feet!
 
-This contains everything you need to run your app locally.
+![Game Banner](https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?q=80&w=2544&auto=format&fit=crop)
 
-View your app in AI Studio: https://ai.studio/apps/drive/16HxYpJRXvWcK_lGCm2O7r_g4x6bRBy3l
+## 🎮 How to Play
 
-## Run Locally
+### Objective
+Reduce your opponent's HP to zero before the 80-second timer runs out. If time runs out, the player with the most HP wins.
 
-**Prerequisites:**  Node.js
+### Controls
 
+| Action | Player 1 | Player 2 |
+| :--- | :--- | :--- |
+| **Move** | `W` `A` `S` `D` | `Arrow Keys` |
+| **Jump** | `W` | `Up Arrow` |
+| **Duck** | `S` | `Down Arrow` |
+| **Poke** | `Space` | `Enter` |
+| **Special** | `F` | `Right Shift` |
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### Mechanics
+*   **Momentum:** Running before hitting deals significantly more damage.
+*   **Sticks:** Your stick has durability. If it breaks, run to your stick pile to grab a new one.
+*   **Hazards:** Watch out for falling anvils and gusty winds!
+
+---
+
+## 🚀 Local Development
+
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+2.  **Start the dev server:**
+    ```bash
+    npm run dev
+    ```
+
+3.  **Open in browser:**
+    Navigate to `http://localhost:5173`
+
+---
+
+## 🌍 Deployment to GitHub Pages
+
+This repository is configured to automatically deploy to GitHub Pages using GitHub Actions.
+
+### Setup Instructions
+
+1.  **Push code to GitHub:**
+    Ensure this code is pushed to a repository on GitHub.
+
+2.  **Enable GitHub Pages:**
+    *   Go to your repository **Settings**.
+    *   Click on **Pages** in the sidebar.
+    *   Under **Build and deployment**, select **GitHub Actions** as the source.
+
+3.  **Trigger Deployment:**
+    *   Pushing to the `main` branch will automatically trigger the `Deploy static content to Pages` workflow.
+    *   You can monitor the progress in the **Actions** tab.
+
+4.  **Play:**
+    Once the action completes, your game will be live at `https://<your-username>.github.io/<repo-name>/`.
