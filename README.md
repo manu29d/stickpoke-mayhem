@@ -2,7 +2,7 @@
 
 **Stick-Poke Mayhem** is an 80-second ragdoll rumble where goofy avatars poke each other into oblivion. Manage your sticks, utilize momentum for maximum damage, and try not to trip over your own feet!
 
-![Game Banner](https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?q=80&w=2544&auto=format&fit=crop)
+<img width="1717" height="853" alt="image" src="https://github.com/user-attachments/assets/0e1a8c45-b51e-427c-93cb-a61048aae94d" />
 
 ## 🎮 How to Play
 
